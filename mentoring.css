@@ -1,349 +1,389 @@
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>storykeeper — the story between us · mentoring for anyone who photographs kids</title>
+/* ═══════════════════════════════════════════════════════════════
+   The Bitties — Mentoring site
+   Type:  Instrument Serif (display, w/ italic) · Work Sans (UI/body)
+   Color: cream page · deep brown ink · terracotta accent (tweakable)
+   ═══════════════════════════════════════════════════════════════ */
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="mentoring.css" />
-<style id="storykeeper-overrides">
-  /* Gallery mosaic — curated 6 (4 portraits + 2 landscapes), height-matched rows */
-  .gallery-item:nth-child(1) { grid-column: span 4; aspect-ratio: 3/4; }  /* diner (P) */
-  .gallery-item:nth-child(2) { grid-column: span 8; aspect-ratio: 3/2; }  /* trampoline (L) */
-  .gallery-item:nth-child(3) { grid-column: span 8; aspect-ratio: 3/2; }  /* window light (L) */
-  .gallery-item:nth-child(4) { grid-column: span 4; aspect-ratio: 3/4; }  /* lipstick (P) */
-  .gallery-item:nth-child(5) { grid-column: span 6; aspect-ratio: 3/4; }  /* suits (P) */
-  .gallery-item:nth-child(6) { grid-column: span 6; aspect-ratio: 3/4; }  /* gas mirror (P) */
-  .gallery-item:nth-child(1) img { object-position: center 35%; }
-  .gallery-item:nth-child(5) img { object-position: center 28%; }
+:root {
+  --cream: #f4ede2;
+  --cream-2: #ebe2d2;
+  --ink: #1f150c;
+  --ink-2: #4a3a2e;
+  --muted: #9a7855;
+  --accent: #b87544;          /* terracotta — overridden by Tweaks */
+  --accent-hi: #c98554;
+  --line: rgba(31,21,12,0.12);
+  --serif: 'Instrument Serif', Georgia, serif;
+  --sans: 'Work Sans', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+}
 
-  /* Brand mark — three-perspective glyph beside wordmark */
-  .top-nav .wordmark { display: inline-flex; align-items: center; gap: 12px; }
-  .brand-mark { display: inline-flex; align-items: center; gap: 6px; }
-  .brand-mark svg { width: 23px; height: 16px; color: var(--accent); display: block; }
-  footer .wordmark { display: inline-flex; align-items: center; gap: 11px; }
-  footer .brand-mark svg { width: 21px; height: 15px; color: var(--accent-hi); }
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; background: var(--cream); color: var(--ink); font-family: var(--sans); font-weight: 400; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+em { font-style: italic; }
 
-  /* Story card photo — drop-slot fill */
-  .storycard-photo image-slot { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
-  .storycard-photo .storycard-eyebrow { z-index: 2; }
-</style>
-</head>
-<body data-pricing="cards">
+/* ───────── Header / Nav ───────── */
+.top-nav {
+  position: sticky; top: 0; z-index: 20;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 20px 48px;
+  background: rgba(244,237,226,0.92);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--line);
+}
+.top-nav .wordmark {
+  font-family: var(--serif); font-style: italic; font-size: 30px;
+  color: var(--ink); letter-spacing: -0.5px; line-height: 1; white-space: nowrap; flex-shrink: 0;
+}
+.top-nav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 34px; align-items: center; }
+.top-nav a { font-family: var(--sans); font-size: 14px; font-weight: 500; color: var(--ink); letter-spacing: 0.2px; transition: color .15s; }
+.top-nav a:hover { color: var(--accent); }
+.top-nav .nav-cta {
+  border: 1px solid var(--ink); padding: 8px 18px; border-radius: 999px;
+  font-size: 13px; font-weight: 500; transition: background .15s, color .15s;
+}
+.top-nav .nav-cta:hover { background: var(--ink); color: var(--cream); }
 
-<!-- ───────── Top Nav ───────── -->
-<nav class="top-nav" data-screen-label="nav">
-  <a href="#" class="wordmark">
-    <span class="brand-mark" aria-hidden="true">
-      <svg viewBox="0 0 92 64" fill="none" stroke="currentColor" stroke-width="4"><circle cx="46" cy="32" r="24"></circle><circle cx="46" cy="32" r="8"></circle></svg>
-      <svg viewBox="0 0 92 64" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"><line x1="16" y1="24" x2="76" y2="24"></line><line x1="28" y1="36" x2="64" y2="36"></line><line x1="40" y1="46" x2="52" y2="46"></line></svg>
-      <svg viewBox="0 0 92 64" fill="none" stroke="currentColor" stroke-width="4"><ellipse cx="46" cy="24" rx="28" ry="8"></ellipse><ellipse cx="46" cy="36" rx="18" ry="6"></ellipse><ellipse cx="46" cy="46" rx="8" ry="3"></ellipse></svg>
-    </span>
-    <span>storykeeper</span>
-  </a>
-  <ul>
-    <li><a href="#how">How it works</a></li>
-    <li><a href="#pricing">Mentoring</a></li>
-    <li><a href="#about">About</a></li>
-    <li><a href="#guide" class="nav-cta">Free Guide</a></li>
-  </ul>
-</nav>
+/* ───────── Hero — D0 full-bleed ───────── */
+.hero { position: relative; height: clamp(560px, calc(100vh - 74px), 780px); overflow: hidden; background: #1a1410; }
+.hero-bg {
+  position: absolute; inset: 0;
+  background-image: url('assets/hero.jpg'); background-size: cover; background-position: center 70%;
+  filter: saturate(0.82) brightness(0.95);
+}
+.hero-scrim {
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(rgba(244,237,226,0.12), rgba(244,237,226,0.12)),
+    linear-gradient(180deg, rgba(0,0,0,0) 50%, rgba(0,0,0,0.6) 100%),
+    radial-gradient(ellipse 80% 55% at 22% 100%, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.25) 45%, rgba(0,0,0,0) 75%);
+}
+.hero-content {
+  position: relative; z-index: 2; height: 100%;
+  display: flex; flex-direction: column; justify-content: flex-end;
+  padding: 0 clamp(32px, 5vw, 72px) clamp(40px, 6vw, 64px);
+  color: #fff; max-width: 1500px; margin: 0 auto;
+}
+.hero-greeting {
+  font-family: var(--sans); font-size: 12px; font-weight: 600; letter-spacing: 3px;
+  text-transform: uppercase; color: #fff; opacity: 0.92; margin-bottom: 18px; text-shadow: 0 1px 10px rgba(0,0,0,0.5);
+}
+.hero h1 {
+  font-family: var(--serif); font-weight: 400; font-size: clamp(32px, 3.8vw, 48px);
+  line-height: 1.05; letter-spacing: -0.6px; margin: 0; max-width: 440px; color: #fff;
+  text-shadow: 0 2px 28px rgba(0,0,0,0.55); text-wrap: pretty;
+}
+.hero p.sub {
+  font-family: var(--sans); font-weight: 400; font-size: 15px; line-height: 1.6;
+  color: rgba(255,255,255,0.92); margin: 18px 0 0; max-width: 440px; text-shadow: 0 1px 12px rgba(0,0,0,0.55);
+}
+.hero-buttons { margin-top: 30px; display: flex; gap: 12px; flex-wrap: wrap; }
+.btn-pill {
+  display: inline-block; padding: 14px 26px; border-radius: 999px;
+  font-family: var(--sans); font-size: 14px; font-weight: 600; letter-spacing: 0.2px; cursor: pointer;
+  transition: transform .15s, background .15s, color .15s, border-color .15s; border: 1px solid transparent;
+}
+.btn-filled { background: #fff; color: var(--ink); }
+.btn-filled:hover { background: var(--accent); color: #fff; }
+.btn-ghost { background: transparent; border-color: rgba(255,255,255,0.75); color: #fff; }
+.btn-ghost:hover { background: rgba(255,255,255,0.12); }
 
-<!-- ───────── Hero (D0 full-bleed) ───────── -->
-<section class="hero" data-screen-label="hero">
-  <div class="hero-bg" aria-label="Cowboy-hat girl with bandaid headband"></div>
-  <div class="hero-scrim"></div>
-  <div class="hero-content">
-    <div class="hero-greeting">Hi, I'm Erica &middot; <span style="font-family:var(--serif);font-style:italic;text-transform:none;letter-spacing:0;font-size:15px;opacity:.95">the story between us</span></div>
-    <h1 id="hero-headline">You are the <em>storykeeper.</em><br>Let me teach you to <em>see</em> like one.</h1>
-    <p class="sub">One-on-one mentoring for the people closest to the kids — parents, teachers, camp staff, daycare providers. I’ll give you the skills to photograph the everyday and keep the story — to name what you’ve always been.</p>
-    <div class="hero-buttons">
-      <a href="#guide" class="btn-pill btn-filled">Get the Free Guide</a>
-      <a href="#pricing" class="btn-pill btn-ghost">See Mentoring Options</a>
-    </div>
-  </div>
-</section>
+/* ───────── Cred bar ───────── */
+.cred-bar {
+  background: var(--cream-2); border-bottom: 1px solid var(--line);
+  padding: 20px 48px; display: flex; align-items: center; justify-content: center; gap: 28px; flex-wrap: wrap;
+}
+.cred-item { font-family: var(--sans); font-size: 13px; color: var(--ink-2); letter-spacing: 0.2px; }
+.cred-item strong { color: var(--ink); font-weight: 600; }
+.cred-divider { width: 4px; height: 4px; border-radius: 50%; background: var(--muted); opacity: 0.5; }
 
-<!-- ───────── Cred bar ───────── -->
-<div class="cred-bar">
-  <div class="cred-item"><strong>Click Pro</strong> Certified</div>
-  <div class="cred-divider"></div>
-  <div class="cred-item"><strong>15+</strong> Years Behind the Camera</div>
-  <div class="cred-divider"></div>
-  <div class="cred-item">Mentoring <strong>Online</strong>, Anywhere</div>
-  <div class="cred-divider"></div>
-  <div class="cred-item">Parents &middot; Teachers &middot; Camps &middot; Daycares</div>
-</div>
+/* ───────── Generic section wrappers ───────── */
+section { padding: 116px 48px; }
+.section-label { font-family: var(--sans); font-size: 11px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: var(--accent); margin-bottom: 18px; }
+.section-title { font-family: var(--serif); font-weight: 400; font-size: clamp(36px, 4.4vw, 56px); line-height: 1.05; letter-spacing: -0.8px; margin: 0 0 20px; color: var(--ink); text-wrap: balance; }
+.section-lede { font-family: var(--sans); font-size: 17px; line-height: 1.6; color: var(--ink-2); max-width: 560px; margin: 0; }
 
-<!-- ───────── Gallery (social proof) ───────── -->
-<section id="work" data-screen-label="work">
-  <div class="gallery">
-    <div class="gallery-header">
-      <div>
-        <div class="section-label">The proof</div>
-        <h2 class="section-title">Fifteen years of showing up<br>with a <em>camera</em></h2>
-      </div>
-      <div class="gallery-note">These are mine.<br>I'll teach you to make yours.</div>
-    </div>
-    <div class="gallery-grid">
-      <div class="gallery-item">
-        <img src="assets/diner-phone.jpg" alt="Teen in a suit taking a call in a warm-lit diner booth" />
-        <div class="label">Documentary · Character</div>
-      </div>
-      <div class="gallery-item">
-        <img src="assets/photo0.jpg" alt="Two children high-fiving through a trampoline net in golden light" />
-        <div class="label">Golden Hour · Connection</div>
-      </div>
-      <div class="gallery-item">
-        <img src="assets/portfolio-pot.jpg" alt="Baby lit by a window near the Christmas tree" />
-        <div class="label">Light · Wonder</div>
-      </div>
-      <div class="gallery-item">
-        <img src="assets/photo1.jpg" alt="Girl applying lipstick in a lit mirror" />
-        <div class="label">Light · Reflection</div>
-      </div>
-      <div class="gallery-item">
-        <img src="assets/suits.jpg" alt="Two brothers in three-piece suits holding folders" />
-        <div class="label">Milestone · Brothers</div>
-      </div>
-      <div class="gallery-item">
-        <img src="assets/photo5.jpg" alt="Teen pumping gas, seen in a side mirror" />
-        <div class="label">Documentary · Story</div>
-      </div>
-    </div>
-  </div>
-</section>
+/* ───────── How it works — 3 steps ───────── */
+.how { max-width: 1240px; margin: 0 auto; }
+.how-intro { text-align: center; margin-bottom: 72px; }
+.how-intro .section-lede { margin: 0 auto; }
+.how-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; }
+.how-step { position: relative; padding-top: 34px; border-top: 2px solid var(--accent); }
+.how-step .step-n { font-family: var(--serif); font-style: italic; font-size: 15px; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); margin-bottom: 14px; }
+.how-step h3 { font-family: var(--serif); font-weight: 400; font-size: 30px; margin: 0 0 12px; letter-spacing: -0.3px; color: var(--ink); }
+.how-step p { font-size: 15px; line-height: 1.65; color: var(--ink-2); margin: 0; }
 
-<!-- ───────── How it works ───────── -->
-<section id="how" data-screen-label="how">
-  <div class="how">
-    <div class="how-intro">
-      <div class="section-label">How mentoring works</div>
-      <h2 class="section-title">Real progress, one<br>conversation <em>at a time</em></h2>
-      <p class="section-lede">No lecture halls, no gear lists. We meet over video, look at your own photos of your own kids, and I show you exactly what to change next time you pick up the camera.</p>
-    </div>
-    <div class="how-steps">
-      <div class="how-step">
-        <div class="step-n"><em>Step one</em></div>
-        <h3>Tell me where you're stuck</h3>
-        <p>Grab the free guide or book a session and send me a handful of your photos. I look at what you're already doing and where the story is getting lost.</p>
-      </div>
-      <div class="how-step">
-        <div class="step-n"><em>Step two</em></div>
-        <h3>We meet, we look, we fix</h3>
-        <p>On a video call we go through your images together — light, angle, timing, intention. You leave with a short, specific plan for the very next shoot.</p>
-      </div>
-      <div class="how-step">
-        <div class="step-n"><em>Step three</em></div>
-        <h3>You practice, I stay close</h3>
-        <p>You shoot with new eyes. Send the results, get feedback, keep going. Ongoing packages keep that loop running until it's second nature.</p>
-      </div>
-    </div>
-  </div>
-</section>
+/* ───────── Packages & pricing ───────── */
+.pricing-band { background: var(--cream-2); }
+.pricing { max-width: 1300px; margin: 0 auto; }
+.pricing-head { text-align: center; margin-bottom: 64px; }
+.pricing-head .section-lede { margin: 0 auto; }
 
-<!-- ───────── What we'll cover (removed — lives in the free guide) ───────── -->
+/* Cards layout (default) */
+.pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.price-card {
+  background: var(--cream); border: 1px solid var(--line); border-radius: 4px;
+  padding: 36px 32px 34px; display: flex; flex-direction: column; transition: transform .2s, box-shadow .2s;
+}
+.price-card:hover { transform: translateY(-4px); box-shadow: 0 24px 50px -24px rgba(31,21,12,0.35); }
+.price-card.featured { background: var(--ink); color: var(--cream); border-color: var(--ink); }
+.price-card.featured .pc-name,
+.price-card.featured .pc-price,
+.price-card.featured .pc-feat li { color: var(--cream); }
+.price-card.featured .pc-desc { color: rgba(244,237,226,0.72); }
+.price-card.featured .pc-feat li::before { color: var(--accent-hi); }
+.pc-tag {
+  align-self: flex-start; font-family: var(--sans); font-size: 10px; font-weight: 600; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--accent); border: 1px solid var(--accent); border-radius: 999px;
+  padding: 4px 12px; margin-bottom: 22px; white-space: nowrap;
+}
+.price-card.featured .pc-tag { color: #fff; background: var(--accent); border-color: var(--accent); }
+.pc-name { font-family: var(--serif); font-weight: 400; font-size: 27px; letter-spacing: -0.3px; margin: 0 0 6px; color: var(--ink); }
+.pc-price { font-family: var(--serif); font-size: 40px; line-height: 1; margin: 14px 0 4px; color: var(--ink); }
+.pc-price .per { font-family: var(--sans); font-size: 14px; font-weight: 400; color: var(--muted); letter-spacing: 0.2px; }
+.price-card.featured .pc-price .per { color: rgba(244,237,226,0.6); }
+.pc-desc { font-size: 14px; line-height: 1.6; color: var(--ink-2); margin: 14px 0 22px; }
+.pc-feat { list-style: none; margin: 0 0 28px; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.pc-feat li { position: relative; padding-left: 22px; font-size: 14px; line-height: 1.5; color: var(--ink-2); }
+.pc-feat li::before { content: '—'; position: absolute; left: 0; color: var(--accent); font-weight: 600; }
+.pc-cta {
+  margin-top: auto; text-align: center; padding: 12px 20px; border-radius: 999px;
+  font-family: var(--sans); font-size: 14px; font-weight: 600; cursor: pointer;
+  border: 1px solid var(--ink); color: var(--ink); background: transparent; transition: background .15s, color .15s;
+}
+.pc-cta:hover { background: var(--ink); color: var(--cream); }
+.price-card.featured .pc-cta { background: var(--accent); border-color: var(--accent); color: #fff; }
+.price-card.featured .pc-cta:hover { background: var(--accent-hi); }
+.pricing-foot { text-align: center; margin-top: 40px; font-size: 14px; color: var(--muted); }
+.pricing-foot a { color: var(--accent); font-weight: 600; }
 
-<!-- ───────── Story card · tagline + a kept story ───────── -->
-<section id="story" class="storycard-band" data-screen-label="story">
-  <div class="storycard-wrap">
-    <div class="storycard-head">
-      <h2 class="section-title">A picture is worth a thousand words. But <em>which</em> thousand? Choosing them is the whole art.</h2>
-      <p class="section-lede">These are mine. I'll teach you to make yours.</p>
-    </div>
-    <article class="storycard">
-      <div class="storycard-photo">
-        <image-slot id="story-photo" shape="rect" placeholder="Drop a candid — the boys on bodyguard duty"></image-slot>
-        <span class="storycard-eyebrow">A storykeeper story</span>
-      </div>
-      <div class="storycard-body">
-        <div class="label">In a single frame</div>
-        <h3>I don't open my own doors anymore</h3>
-        <p class="story">The boys fall into formation the second we leave the house — one on the door, one scanning the room. I'm the client. The precious cargo. I've never been so <em>managed,</em> or so <em>loved.</em></p>
-      </div>
-    </article>
-  </div>
-</section>
+/* List layout (Tweak option) */
+[data-pricing="list"] .pricing-grid { grid-template-columns: 1fr; max-width: 860px; margin: 0 auto; gap: 0; border-top: 1px solid var(--line); }
+[data-pricing="list"] .price-card {
+  flex-direction: row; align-items: center; gap: 32px; border: none; border-bottom: 1px solid var(--line);
+  border-radius: 0; padding: 34px 8px; background: transparent;
+}
+[data-pricing="list"] .price-card:hover { transform: none; box-shadow: none; background: rgba(255,255,255,0.4); }
+[data-pricing="list"] .price-card.featured { background: transparent; color: inherit; }
+[data-pricing="list"] .price-card.featured .pc-name,
+[data-pricing="list"] .price-card.featured .pc-price { color: var(--ink); }
+[data-pricing="list"] .price-card.featured .pc-desc { color: var(--ink-2); }
+[data-pricing="list"] .pc-tag { margin-bottom: 10px; }
+[data-pricing="list"] .pc-lead { flex: 1 1 auto; min-width: 0; }
+[data-pricing="list"] .pc-name { margin-top: 2px; }
+[data-pricing="list"] .pc-feat { display: none; }
+[data-pricing="list"] .pc-price { flex: 0 0 auto; margin: 0; text-align: right; }
+[data-pricing="list"] .pc-cta { flex: 0 0 auto; margin: 0; white-space: nowrap; }
+[data-pricing="list"] .price-card.featured .pc-cta { background: var(--accent); border-color: var(--accent); color: #fff; }
+.pc-lead { }
+[data-pricing="cards"] .pc-lead { display: contents; }
 
-<!-- ───────── About ───────── -->
-<section id="about" class="about-band" data-screen-label="about">
-  <div class="about">
-    <div class="about-portrait">
-      <div class="frame">
-        <img src="assets/photo7.png" alt="Erica Smith" />
-      </div>
-    </div>
-    <div class="about-text">
-      <div class="section-label">About me</div>
-      <h2>Photographer, teacher,<br><em>multipotentialite</em></h2>
-      <p>I picked up a camera to document the beautiful chaos of raising three kids. I didn't want to forget a single moment. I also wanted receipts — because parenthood is nothing like the books I devoured. Nothing.</p>
-      <p>I taught myself exposure, white balance, and focus the hard way — years of muscle memory so I could be fast enough to catch the fleeting stuff. The micro expressions. The messes that become memories. Today you don't have to do any of that. Modern cameras — even your phone on auto — handle the technical side. What they can't do is see the story. That's the part I teach.</p>
-      <p>Now I mentor the people who are around kids the most — parents, teachers, camp counselors, daycare providers — anyone with a good reason to photograph them. My whole story is the proof: you don't need to become a professional. You just need someone to show you how to <em>see</em>.</p>
-      <div class="about-stats">
-        <div class="stat">
-          <div class="number">15+</div>
-          <div class="label">Years</div>
-        </div>
-        <div class="stat">
-          <div class="number">Click</div>
-          <div class="label">Pro Certified</div>
-        </div>
-        <div class="stat">
-          <div class="number">1:1</div>
-          <div class="label">Online Mentoring</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+/* ───────── What we'll cover — 6 principles ───────── */
+.cover { max-width: 1280px; margin: 0 auto; }
+.cover-intro { text-align: center; margin-bottom: 64px; }
+.cover-intro .section-lede { margin: 0 auto; }
+.cover-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); }
+.cover-card { background: var(--cream); padding: 38px 34px 42px; transition: background .2s; }
+.cover-card:hover { background: #faf5ec; }
+.cover-card .num { font-family: var(--serif); font-style: italic; font-size: 42px; color: var(--accent); line-height: 1; margin-bottom: 24px; }
+.cover-card h3 { font-family: var(--serif); font-weight: 400; font-size: 28px; margin: 0 0 12px; color: var(--ink); letter-spacing: -0.3px; }
+.cover-card p { font-size: 15px; line-height: 1.6; color: var(--ink-2); margin: 0; }
 
-<!-- ───────── Free guide band (primary CTA) ───────── -->
-<section id="guide" class="guide-band" data-screen-label="guide">
-  <div class="guide">
-    <div>
-      <div class="section-label">Free download</div>
-      <h2 class="section-title">Start tonight:<br><em>5 Steps to Better Photos</em></h2>
-      <p class="lede">A jargon-free guide with practice assignments you can try today — no special equipment, just any camera and 15 minutes. The fastest way to see what mentoring feels like before you book.</p>
-      <form class="email-form" onsubmit="event.preventDefault()">
-        <input type="email" placeholder="Your email address" />
-        <button type="submit">Send it to me</button>
-      </form>
-      <p class="guide-note">The guide is being finished now — drop your email and you'll be first to get it.</p>
-    </div>
-    <div class="guide-preview">
-      <div class="guide-mockup">
-        <div class="guide-mockup-eyebrow">A free guide by Erica Smith</div>
-        <div class="guide-mockup-title">5 Steps to Take Better Pictures of the Kids in Your Care</div>
-        <div class="guide-mockup-sub">Using just your phone</div>
-        <div class="guide-mockup-steps">
-          <div class="guide-mockup-step"><span class="n">1</span> Get Low</div>
-          <div class="guide-mockup-step"><span class="n">2</span> Back Up, Then Back Up Again</div>
-          <div class="guide-mockup-step"><span class="n">3</span> Use the Rule of Thirds</div>
-          <div class="guide-mockup-step"><span class="n">4</span> Look for the Light</div>
-          <div class="guide-mockup-step"><span class="n">5</span> Tweaking Is Not Cheating</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+/* ───────── Free guide band (primary CTA) ───────── */
+.guide-band { background: var(--ink); color: var(--cream); padding: 116px 48px; }
+.guide-band .section-label { color: var(--accent-hi); }
+.guide-band .section-title { color: #f4ede2; }
+.guide { max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: 1.1fr 1fr; gap: 80px; align-items: center; }
+.guide p.lede { font-family: var(--sans); font-size: 17px; line-height: 1.65; color: rgba(244,237,226,0.78); max-width: 480px; margin: 0 0 32px; }
+.email-form { display: flex; gap: 8px; max-width: 480px; border-bottom: 1px solid rgba(244,237,226,0.3); padding-bottom: 4px; }
+.email-form input { flex: 1; background: transparent; border: none; padding: 14px 4px; color: #fff; font-family: var(--sans); font-size: 16px; outline: none; }
+.email-form input::placeholder { color: rgba(244,237,226,0.5); }
+.email-form button { background: var(--accent); border: none; color: #fff; padding: 12px 28px; border-radius: 999px; font-family: var(--sans); font-size: 14px; font-weight: 600; cursor: pointer; transition: background .15s; }
+.email-form button:hover { background: var(--accent-hi); }
+.guide-note { font-size: 13px; color: rgba(244,237,226,0.5); margin: 16px 0 0; }
+.guide-preview { display: flex; justify-content: center; }
+.guide-mockup { background: var(--cream); color: var(--ink); padding: 44px 40px; width: 100%; max-width: 380px; aspect-ratio: 1 / 1.32; box-shadow: 0 30px 60px -20px rgba(0,0,0,0.5); transform: rotate(-1.5deg); transition: transform .3s; display: flex; flex-direction: column; }
+.guide-mockup:hover { transform: rotate(0deg); }
+.guide-mockup-eyebrow { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 18px; }
+.guide-mockup-title { font-family: var(--serif); font-size: 30px; line-height: 1.04; margin-bottom: 12px; letter-spacing: -0.3px; }
+.guide-mockup-sub { font-size: 12px; color: var(--muted); letter-spacing: 0.2px; margin-bottom: 28px; }
+.guide-mockup-steps { display: flex; flex-direction: column; gap: 10px; margin-top: auto; }
+.guide-mockup-step { display: flex; align-items: baseline; gap: 12px; font-size: 14px; color: var(--ink-2); padding-bottom: 8px; border-bottom: 1px dotted rgba(31,21,12,0.18); }
+.guide-mockup-step .n { font-family: var(--serif); font-style: italic; color: var(--accent); font-size: 18px; width: 18px; flex: 0 0 auto; }
 
-<!-- ───────── Packages & pricing ───────── -->
-<section id="pricing" class="pricing-band" data-screen-label="pricing">
-  <div class="pricing">
-    <div class="pricing-head">
-      <div class="section-label">Ways to work together</div>
-      <h2 class="section-title">Mentoring for every<br>step of the <em>journey</em></h2>
-      <p class="section-lede">Start small with a single session or a photo review, go deeper with ongoing mentorship, or learn at your own pace. Every option is built for people photographing the kids in their care.</p>
-    </div>
+/* ───────── Gallery (social proof) ───────── */
+.gallery { max-width: 1320px; margin: 0 auto; }
+.gallery-header { display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 48px; margin-bottom: 48px; padding-bottom: 32px; border-bottom: 1px solid var(--line); }
+.gallery-note { font-family: var(--sans); font-size: 13px; color: var(--muted); letter-spacing: 0.3px; text-align: right; }
+.gallery-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 20px; }
+.gallery-item { position: relative; overflow: hidden; }
+.gallery-item img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .6s ease; }
+.gallery-item:hover img { transform: scale(1.03); }
+.gallery-item .label { margin-top: 12px; font-family: var(--sans); font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); }
+.gallery-item:nth-child(1) { grid-column: span 4; aspect-ratio: 3/4; }
+.gallery-item:nth-child(2) { grid-column: span 8; aspect-ratio: 3/2; }
+.gallery-item:nth-child(3) { grid-column: span 8; aspect-ratio: 3/2; }
+.gallery-item:nth-child(4) { grid-column: span 4; aspect-ratio: 3/4; }
+.gallery-item:nth-child(5) { grid-column: span 6; aspect-ratio: 3/2; }
+.gallery-item:nth-child(6) { grid-column: span 6; aspect-ratio: 3/2; }
+.gallery-item:nth-child(7) { grid-column: span 6; aspect-ratio: 3/2; }
+.gallery-item:nth-child(8) { grid-column: span 6; aspect-ratio: 3/2; }
 
-    <div class="pricing-grid">
-      <!-- Photo review -->
-      <div class="price-card">
-        <div class="pc-lead">
-          <span class="pc-tag">Try it out</span>
-          <h3 class="pc-name">Photo Review</h3>
-          <div class="pc-desc">Send a set of your photos and get an honest, encouraging video critique you can rewatch any time.</div>
-        </div>
-        <ul class="pc-feat">
-          <li>Up to 15 photos reviewed</li>
-          <li>10–15 min recorded video critique</li>
-          <li>Three things to try next</li>
-        </ul>
-        <div class="pc-price">$45<span class="per"> / review</span></div>
-        <a href="#contact" class="pc-cta">Book a review</a>
-      </div>
+/* ───────── About ───────── */
+.about-band { background: var(--cream-2); }
+.about { max-width: 1240px; margin: 0 auto; display: grid; grid-template-columns: 0.85fr 1.15fr; gap: 80px; align-items: center; }
+.about-portrait { position: relative; }
+.about-portrait .frame { position: relative; z-index: 1; aspect-ratio: 1; overflow: hidden; border-radius: 50%; background: var(--ink); }
+.about-portrait .frame img { width: 100%; height: 100%; object-fit: cover; }
+/* Light-blue disc peeking out behind the portrait */
+.about-portrait .accent { position: absolute; width: 110%; height: 110%; background: #cfe0ea; border-radius: 50%; top: -7%; left: -9%; z-index: 0; pointer-events: none; }
+.about-text h2 { font-family: var(--serif); font-weight: 400; font-size: clamp(36px, 4.2vw, 54px); line-height: 1.06; margin: 0 0 28px; letter-spacing: -0.6px; color: var(--ink); }
+.about-text p { font-family: var(--sans); font-size: 16px; line-height: 1.7; color: var(--ink-2); margin: 0 0 18px; max-width: 580px; }
+.about-stats { display: flex; gap: 48px; margin-top: 40px; padding-top: 32px; border-top: 1px solid var(--line); }
+.stat .number { font-family: var(--serif); font-style: italic; font-size: 42px; color: var(--accent); line-height: 1; }
+.stat .label { font-family: var(--sans); font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--muted); margin-top: 8px; }
 
-      <!-- 1:1 session (featured) -->
-      <div class="price-card featured">
-        <div class="pc-lead">
-          <span class="pc-tag">Most popular</span>
-          <h3 class="pc-name">1:1 Mentoring Session</h3>
-          <div class="pc-desc">A live video call built entirely around your photos, your camera, and the kids you shoot.</div>
-        </div>
-        <ul class="pc-feat">
-          <li>60-minute live video call</li>
-          <li>Screen-share of your own images</li>
-          <li>Personalized shoot plan to keep</li>
-          <li>One follow-up review included</li>
-        </ul>
-        <div class="pc-price">$95<span class="per"> / session</span></div>
-        <a href="#contact" class="pc-cta">Book a session</a>
-      </div>
+/* ───────── Journey · from here to here ───────── */
+.journey-band { background: var(--cream); }
+.journey { max-width: 1120px; margin: 0 auto; }
+.journey-head { text-align: center; margin-bottom: 60px; }
+.journey-head .section-lede { margin: 0 auto; }
+.journey-row { display: flex; align-items: flex-start; justify-content: center; gap: 20px; }
+.journey-figure { display: flex; flex-direction: column; flex: 0 0 auto; margin: 0; }
+.journey-figure.then { width: 287px; }
+.journey-figure.now { width: 300px; }
+.journey-figure image-slot { display: block; width: 100%; height: 440px; box-shadow: 0 24px 50px -28px rgba(31,21,12,0.4); }
+.journey-cap { margin-top: 18px; text-align: center; width: 100%; }
+.journey-cap .yr { display: block; font-family: var(--serif); font-style: italic; font-size: 30px; color: var(--accent); line-height: 1; margin-bottom: 8px; }
+.journey-cap .txt { font-family: var(--sans); font-size: 12px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); }
+.journey-arrow { display: flex; align-items: center; justify-content: center; color: var(--accent); flex: 0 0 auto; align-self: center; margin-top: -34px; }
+.journey-arrow svg { width: 56px; height: 56px; }
+.journey-note { text-align: center; margin-top: 44px; font-family: var(--serif); font-style: italic; font-size: clamp(20px, 2.2vw, 26px); color: var(--ink); line-height: 1.4; max-width: 620px; margin-left: auto; margin-right: auto; }
 
-      <!-- Ongoing mentorship -->
-      <div class="price-card">
-        <div class="pc-lead">
-          <span class="pc-tag">Go deeper</span>
-          <h3 class="pc-name">Ongoing Mentorship</h3>
-          <div class="pc-desc">A multi-session package for real, lasting change — with feedback between every call.</div>
-        </div>
-        <ul class="pc-feat">
-          <li>Four 60-min sessions over 8 weeks</li>
-          <li>Unlimited photo feedback between calls</li>
-          <li>Custom practice assignments</li>
-          <li>Best value per session</li>
-        </ul>
-        <div class="pc-price">$340<span class="per"> / package</span></div>
-        <a href="#contact" class="pc-cta">Start mentorship</a>
-      </div>
-    </div>
+/* ───────── Manifesto ───────── */
+.manifesto-band { background: var(--ink); color: var(--cream); }
+.manifesto { max-width: 1000px; margin: 0 auto; text-align: center; }
+.manifesto .section-label { color: var(--accent-hi); }
+.manifesto .lead-line { font-family: var(--serif); font-size: clamp(28px, 3.4vw, 44px); line-height: 1.14; letter-spacing: -0.4px; color: var(--cream); margin: 0 auto 40px; max-width: 760px; text-wrap: balance; }
+.manifesto .lead-line em { font-style: italic; color: var(--accent-hi); }
+.manifesto-diagram { display: flex; align-items: center; justify-content: center; gap: clamp(40px, 8vw, 96px); margin: 0 auto 40px; padding: 8px 0; }
+.manifesto-diagram figure { margin: 0; display: flex; flex-direction: column; align-items: center; gap: 18px; }
+.manifesto-diagram svg { width: 92px; height: 64px; color: var(--cream); opacity: 0.9; }
+.manifesto-diagram figcaption { font-family: var(--sans); font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); }
+.manifesto .kicker { font-family: var(--serif); font-style: italic; font-size: clamp(30px, 4.2vw, 56px); line-height: 1.05; letter-spacing: -0.6px; color: var(--cream); margin: 8px auto 0; max-width: 720px; text-wrap: balance; }
+.manifesto .kicker em { color: var(--accent-hi); font-style: italic; }
 
-    <p class="pricing-foot">Also available: <strong>self-paced video course</strong> (in progress) and <strong>small-group workshops &amp; cohorts</strong> for teams, camps &amp; daycares. <a href="#contact">Ask about group rates →</a></p>
-  </div>
-</section>
+/* ───────── Story card (signature format) ───────── */
+.storycard-band { background: var(--cream); }
+.storycard-wrap { max-width: 1160px; margin: 0 auto; }
+.storycard-head { text-align: center; margin-bottom: 56px; }
+.storycard-head .section-lede { margin: 0 auto; }
+.storycard { display: grid; grid-template-columns: 0.82fr 1.18fr; gap: clamp(32px, 5vw, 72px); align-items: center; background: var(--cream-2); border: 1px solid var(--line); }
+.storycard-photo { position: relative; align-self: stretch; min-height: 100%; overflow: hidden; background: var(--ink); }
+.storycard-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center 25%; display: block; }
+.storycard-eyebrow { position: absolute; top: 20px; left: 20px; font-family: var(--sans); font-size: 10px; font-weight: 600; letter-spacing: 2.5px; text-transform: uppercase; color: #fff; background: rgba(31,21,12,0.55); backdrop-filter: blur(4px); padding: 7px 13px; border-radius: 999px; }
+.storycard-body { padding: clamp(36px, 4vw, 60px) clamp(32px, 4vw, 64px) clamp(36px, 4vw, 60px) 0; }
+.storycard-body .label { font-family: var(--sans); font-size: 11px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: var(--accent); margin-bottom: 18px; }
+.storycard-body h3 { font-family: var(--serif); font-weight: 400; font-size: clamp(34px, 3.8vw, 52px); line-height: 1.03; letter-spacing: -0.6px; margin: 0 0 24px; color: var(--ink); text-wrap: balance; }
+.storycard-body .story { font-family: var(--serif); font-style: italic; font-size: clamp(18px, 1.5vw, 22px); line-height: 1.5; color: var(--ink-2); margin: 0 0 28px; text-wrap: pretty; }
+.storycard-body .story em { font-style: normal; color: var(--ink); }
+.storycard-body .take { font-family: var(--sans); font-size: 14px; line-height: 1.6; color: var(--muted); margin: 0; padding-top: 22px; border-top: 1px solid var(--line); max-width: 480px; }
+.storycard-body .take strong { color: var(--ink); font-weight: 600; }
 
-<!-- ───────── Contact / book ───────── -->
-<section id="contact" data-screen-label="contact">
-  <div class="contact">
-    <div class="section-label">Let's begin</div>
-    <h2 class="section-title">Ready to take photos you'll<br>actually want to <em>keep?</em></h2>
-    <p class="section-lede">Book a session, request a photo review, or ask about group workshops for your camp, classroom, or daycare. The free guide is the easiest place to start.</p>
-    <div class="contact-actions">
-      <a href="#guide" class="btn-pill btn-dark">Get the Free Guide</a>
-      <a href="mailto:hello@becomeastorykeeper.com" class="btn-pill btn-outline">Email Erica</a>
-    </div>
-    <div class="contact-meta">
-      <div><strong>Email</strong> &nbsp;hello@becomeastorykeeper.com</div>
-      <div><strong>Based in</strong> &nbsp;Austin, Texas</div>
-      <div><strong>Mentoring</strong> &nbsp;online, anywhere</div>
-    </div>
-  </div>
-</section>
+@media (max-width: 880px) {
+  .manifesto-diagram { gap: 32px; }
+  .manifesto-diagram svg { width: 66px; height: 48px; }
+  .storycard { grid-template-columns: 1fr; }
+  .storycard-photo { aspect-ratio: 4/3; min-height: 0; }
+  .storycard-photo img { object-position: center 22%; }
+  .storycard-body { padding: 32px 28px 36px; }
+}
 
-<!-- ───────── Footer ───────── -->
-<footer data-screen-label="footer">
-  <div>
-    <a href="#" class="wordmark">
-      <span class="brand-mark" aria-hidden="true">
-        <svg viewBox="0 0 92 64" fill="none" stroke="currentColor" stroke-width="4"><circle cx="46" cy="32" r="24"></circle><circle cx="46" cy="32" r="8"></circle></svg>
-        <svg viewBox="0 0 92 64" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"><line x1="16" y1="24" x2="76" y2="24"></line><line x1="28" y1="36" x2="64" y2="36"></line><line x1="40" y1="46" x2="52" y2="46"></line></svg>
-        <svg viewBox="0 0 92 64" fill="none" stroke="currentColor" stroke-width="4"><ellipse cx="46" cy="24" rx="28" ry="8"></ellipse><ellipse cx="46" cy="36" rx="18" ry="6"></ellipse><ellipse cx="46" cy="46" rx="8" ry="3"></ellipse></svg>
-      </span>
-      <span>storykeeper</span>
-    </a>
-    <div style="font-family:var(--serif);font-style:italic;font-size:15px;color:rgba(244,237,226,0.65);margin-top:4px">the story between us</div>
-  </div>
-  <div class="links">
-    <a href="#how">How it works</a>
-    <a href="#pricing">Mentoring</a>
-    <a href="#about">About</a>
-    <a href="#guide">Free Guide</a>
-  </div>
-  <div>&copy; 2026 Erica Smith &middot; storykeeper</div>
-</footer>
+/* ───────── Contact / book ───────── */
+.contact { max-width: 900px; margin: 0 auto; text-align: center; }
+.contact .section-lede { margin: 0 auto 40px; }
+.contact-actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+.btn-dark { background: var(--ink); color: var(--cream); }
+.btn-dark:hover { background: var(--accent); color: #fff; }
+.btn-outline { background: transparent; border-color: var(--ink); color: var(--ink); }
+.btn-outline:hover { background: var(--ink); color: var(--cream); }
+.contact-meta { margin-top: 44px; display: flex; gap: 28px; justify-content: center; flex-wrap: wrap; font-size: 14px; color: var(--ink-2); }
+.contact-meta strong { color: var(--ink); font-weight: 600; }
 
-<script src="image-slot.js"></script>
+/* ───────── Footer ───────── */
+footer { background: var(--ink); color: rgba(244,237,226,0.7); padding: 56px 48px; display: flex; justify-content: space-between; align-items: center; font-family: var(--sans); font-size: 13px; flex-wrap: wrap; gap: 20px; }
+footer .wordmark { font-family: var(--serif); font-style: italic; font-size: 28px; color: var(--cream); letter-spacing: -0.3px; white-space: nowrap; }
+footer .links { display: flex; gap: 28px; }
+footer .links a:hover { color: var(--accent); }
 
-<!-- ───────── Tweaks ───────── -->
-<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
-<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
-<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
-<script type="text/babel" src="tweaks-panel.jsx"></script>
-<div id="tweaks-root"></div>
-<script type="text/babel" src="storykeeper-tweaks.jsx"></script>
+/* ───────── Responsive ───────── */
+@media (max-width: 980px) {
+  .how-steps { grid-template-columns: 1fr; gap: 36px; }
+  .pricing-grid { grid-template-columns: 1fr; max-width: 480px; margin: 0 auto; }
+  .cover-grid { grid-template-columns: 1fr 1fr; }
+  .guide { grid-template-columns: 1fr; gap: 48px; }
+  .guide-mockup { transform: rotate(0deg); max-width: 320px; }
+  [data-pricing="list"] .price-card { flex-direction: column; align-items: flex-start; gap: 14px; }
+  [data-pricing="list"] .pc-price { text-align: left; }
+  [data-pricing="list"] .pc-cta { width: 100%; }
+}
+@media (max-width: 880px) {
+  .top-nav { padding: 14px 20px; }
+  .top-nav .wordmark { font-size: 26px; }
+  .top-nav ul { gap: 16px; }
+  .top-nav ul li:nth-child(1), .top-nav ul li:nth-child(2), .top-nav ul li:nth-child(3) { display: none; }
 
-</body>
-</html>
+  .hero { display: flex; flex-direction: column; height: auto; min-height: 0; max-height: none; background: var(--cream); }
+  .hero-bg { position: relative; inset: auto; width: 100%; flex: 0 0 auto; height: 58vh; min-height: 380px; max-height: 480px; background-position: center 30%; filter: none; }
+  .hero-scrim { display: none; }
+  .hero-content { position: relative; z-index: auto; height: auto; padding: 40px 24px 48px; max-width: 100%; background: var(--cream); color: var(--ink); }
+  .hero-greeting { color: var(--accent); opacity: 1; text-shadow: none; font-size: 11px; letter-spacing: 2.5px; margin-bottom: 14px; }
+  .hero h1 { color: var(--ink); text-shadow: none; font-size: clamp(30px, 7.5vw, 40px); line-height: 1.05; max-width: 100%; }
+  .hero p.sub { color: var(--ink-2); text-shadow: none; font-size: 15px; max-width: 100%; margin-top: 16px; }
+  .hero-buttons { margin-top: 24px; gap: 10px; }
+  .btn-pill { padding: 12px 22px; font-size: 13px; }
+  .hero .btn-filled { background: var(--ink); color: var(--cream); }
+  .hero .btn-filled:hover { background: var(--accent); color: #fff; }
+  .hero .btn-ghost { background: transparent; border-color: var(--ink); color: var(--ink); }
+  .hero .btn-ghost:hover { background: var(--ink); color: var(--cream); }
+
+  .cred-bar { padding: 16px 20px; gap: 18px; }
+  .cred-item { font-size: 12px; }
+
+  section { padding: 72px 24px; }
+  .guide-band { padding: 72px 24px; }
+  .how-intro, .pricing-head, .cover-intro { margin-bottom: 48px; }
+  .cover-grid { grid-template-columns: 1fr; }
+  .cover-card { padding: 32px 28px; }
+
+  .gallery-header { grid-template-columns: 1fr; gap: 16px; }
+  .gallery-note { text-align: left; }
+  .gallery-grid { grid-template-columns: 1fr; gap: 18px; }
+  .gallery-item { grid-column: 1 / -1 !important; aspect-ratio: 3/2 !important; }
+
+  .journey-row { flex-direction: column; align-items: center; gap: 24px; }
+  .journey-figure image-slot { height: auto; }
+  .journey-figure.then image-slot { width: 70vw; max-width: 300px; aspect-ratio: 460 / 706; }
+  .journey-figure.now image-slot { width: 74vw; max-width: 320px; aspect-ratio: 904 / 1325; }
+  .journey-arrow { transform: rotate(90deg); margin-top: 0; }
+  .journey-arrow svg { width: 40px; height: 40px; }
+
+  .about { grid-template-columns: 1fr; gap: 40px; text-align: left; }
+  .about-portrait { max-width: 280px; }
+  .about-text h2 br { display: none; }
+  .about-text p { max-width: 100%; }
+  .about-stats { gap: 28px; flex-wrap: wrap; }
+
+  footer { flex-direction: column; gap: 20px; text-align: center; padding: 40px 24px; }
+}
+@media (max-width: 420px) {
+  .hero-bg { height: 52vh; min-height: 320px; }
+  .hero h1 { font-size: clamp(26px, 8vw, 34px); }
+  .hero-content { padding: 32px 20px 40px; }
+  section { padding: 56px 20px; }
+  .guide-band { padding: 56px 20px; }
+  .section-title { font-size: clamp(30px, 8vw, 40px); }
+  .cred-bar { gap: 12px; padding: 14px 16px; }
+  .cred-divider { display: none; }
+}
